@@ -1,0 +1,22 @@
+{
+  "name": "shadowsocksx-ng-subscribe",
+  "version": "1.0.0",
+  "description": "Alternative ShadowsocksX-NG Subscribe",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pithyone/ShadowsocksX-NG-Subscribe.git"
+  },
+  "author": "pithyone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pithyone/ShadowsocksX-NG-Subscribe/issues"
+  },
+  "homepage": "https://github.com/pithyone/ShadowsocksX-NG-Subscribe#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "got": "^10.0.3",
+    "plist": "^3.0.1",
+    "uuid": "^3.3.3"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.idea
+.DS_Store
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+com.qiuyuzhou.ShadowsocksX-NG.tmp.plist
