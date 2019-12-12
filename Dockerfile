@@ -27,4 +27,4 @@ RUN chmod 0644 /etc/cron.d/crontab
 
 RUN crontab /etc/cron.d/crontab
 
-CMD ./update.sh && cron -f
+CMD printenv | grep -v "no_proxy" >> /etc/environment && ./update.sh && cron -f
