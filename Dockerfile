@@ -24,8 +24,8 @@ RUN npm install --production
 
 COPY . .
 
-RUN chmod 600 -R .ssh \
-    && mv .ssh $HOME/
+RUN ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' \
+    && mkdir -p /root/.ssh/host
 
 RUN mv crontab /etc/cron.d/crontab
 
@@ -33,4 +33,10 @@ RUN chmod 0644 /etc/cron.d/crontab
 
 RUN crontab /etc/cron.d/crontab
 
-CMD printenv | grep -v "no_proxy" >> /etc/environment && ./update.sh && cron -f
+CMD cd /root/.ssh \
+    && touch host/authorized_keys \
+    && grep -f id_rsa.pub host/authorized_keys || cat id_rsa.pub >> host/authorized_keys \
+    && printenv | grep -v "no_proxy" >> /etc/environment \
+    && cd /app \
+    && ./update.sh \
+    && cron -f
