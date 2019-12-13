@@ -6,4 +6,5 @@ Dockerfile
 .dockerignore
 .gitignore
 README.md
+.github
 com.qiuyuzhou.ShadowsocksX-NG.tmp.plist
