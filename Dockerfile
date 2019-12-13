@@ -4,8 +4,14 @@ WORKDIR /app
 
 ENV TZ Asia/Shanghai
 
-RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
-    && sed -i 's|security.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
+ARG USE_MIRROR=0
+
+RUN if [ "$USE_MIRROR" = 1 ]; then \
+  echo 'use mirror' \
+  && sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
+  && sed -i 's|security.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list \
+  && npm config set registry https://registry.npm.taobao.org; \
+  fi;
 
 RUN apt-get update \
     && apt-get install -y openssh-client cron --no-install-recommends \
