@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker
 
 on:
   push:
@@ -8,14 +8,21 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: shadowsocksx-ng-subscribe
+  IMAGE_NAME: image
 
 jobs:
-  build:
+  push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Build the Docker image
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag image
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
         run: |
           IMAGE_ID=docker.pkg.github.com/$(echo "${{ github.repository }}" | tr '[A-Z]' '[a-z]')/$IMAGE_NAME
 
@@ -31,12 +38,5 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker build . --file Dockerfile --tag $IMAGE_ID:$VERSION
-  push:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Push the Docker image
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
