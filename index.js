@@ -1,30 +1,30 @@
 const got = require('got');
-const cheerio = require('cheerio');
+const base64 = require('base-64');
+const SHADOWSOCKS_URI = require('outline-shadowsocksconfig').SHADOWSOCKS_URI;
 const uuidv4 = require('uuid/v4');
 const plist = require('plist');
 const fs = require('fs');
 
+if (!process.env.URL) {
+    throw new Error("Please set your subscribe url with -e URL=$URL");
+}
+
 (async () => {
-    const response = await got('https://get.ishadowx.biz');
+    const response = await got(process.env.URL);
 
-    const $ = cheerio.load(response.body);
-    const nodes = [];
-    const map = ['ServerHost', 'ServerPort', 'Password', 'Method'];
+    const nodes = base64.decode(response.body).split('\n').map(item => {
+        const config = SHADOWSOCKS_URI.parse(item);
 
-    $('.us,.sg').each(function (i, elem) {
-        const node = {
+        return {
             Id: uuidv4().toUpperCase(),
-            Plugin: '',
-            PluginOptions: '',
-            Remark: '',
+            Method: config.method.data,
+            Password: config.password.data,
+            Plugin: config.extra.plugin ? config.extra.plugin.split(';', 1).pop() : '',
+            PluginOptions: config.extra.plugin ? config.extra.plugin.split(';').slice(1).join(';') : '',
+            Remark: config.tag.data,
+            ServerHost: config.host.data,
+            ServerPort: config.port.data,
         };
-
-        $(this).find('h4').slice(0, 4).each(function (i, elem) {
-            const text = $(this).text().trim().split(':').pop();
-            node[map[i]] = i === 1 ? Number(text) : text;
-        });
-
-        nodes.push(node);
     });
 
     if (nodes.length > 0) {

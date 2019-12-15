@@ -16,6 +16,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "got": "^10.0.3",
+    "outline-shadowsocksconfig": "github:Jigsaw-Code/outline-shadowsocksconfig",
     "plist": "^3.0.1",
     "uuid": "^3.3.3"
   }

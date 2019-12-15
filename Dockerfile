@@ -14,7 +14,7 @@ RUN if [ "$USE_MIRROR" = 1 ]; then \
   fi;
 
 RUN apt-get update \
-    && apt-get install -y openssh-client cron --no-install-recommends \
+    && apt-get install -y openssh-client cron git --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
