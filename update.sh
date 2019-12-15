@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z "$HOST_USER" ]; then
-    echo "Please set your host user with -e HOST_USER=foo"
+    echo "Please set your host user with -e HOST_USER=$USER"
     exit 1
 fi
 
