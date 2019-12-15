@@ -14,7 +14,6 @@
   },
   "homepage": "https://github.com/pithyone/ShadowsocksX-NG-Subscribe#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
     "got": "^10.0.3",
     "outline-shadowsocksconfig": "github:Jigsaw-Code/outline-shadowsocksconfig",
     "plist": "^3.0.1",
