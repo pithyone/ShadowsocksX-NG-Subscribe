@@ -35,6 +35,10 @@ $ docker pull pithyone/shadowsocksx-ng-subscribe
 
 使用下面的命令运行 ShadowsocksX-NG-Subscribe
 
+:warning::warning::warning: 运行后订阅地址的节点将覆盖原有节点，请注意备份 :warning::warning::warning:
+
+将 `***` 替换成你自己的订阅地址
+
 ```bash
 $ docker run -d \
 -e HOST_USER=$USER \
@@ -44,22 +48,11 @@ $ docker run -d \
 pithyone/shadowsocksx-ng-subscribe
 ```
 
-- 将 `***` 替换成你自己的订阅地址
-- :warning::warning::warning: 运行后订阅地址的节点将覆盖原有节点，请注意备份 :warning::warning::warning:
-
 如果订阅更新了但是 ShadowsocksX-NG-Subscribe 没有及时更新，请运行下面的命令强制更新
 
 ```bash
-$ docker run --rm \
--e HOST_USER=$USER \
--e URL="***" \
--v $HOME/.ssh:/root/.ssh/host \
-pithyone/shadowsocksx-ng-subscribe \
-./update.sh
+$ docker exec shadowsocksx-ng-subscribe ./update.sh
 ```
-
-- 将 `***` 替换成你自己的订阅地址
-- :warning::warning::warning: 运行后订阅地址的节点将覆盖原有节点，请注意备份 :warning::warning::warning:
 
 使用下面的命令关闭 ShadowsocksX-NG-Subscribe
 
