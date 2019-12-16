@@ -24,8 +24,7 @@ RUN npm install --production
 
 COPY . .
 
-RUN ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' \
-    && mkdir -p /root/.ssh/host
+RUN mkdir -p /root/.ssh/host
 
 RUN mv crontab /etc/cron.d/crontab
 
@@ -33,7 +32,8 @@ RUN chmod 0644 /etc/cron.d/crontab
 
 RUN crontab /etc/cron.d/crontab
 
-CMD cd /root/.ssh \
+CMD yes y | ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' \
+    && cd /root/.ssh \
     && touch host/authorized_keys \
     && grep -f id_rsa.pub host/authorized_keys || cat id_rsa.pub >> host/authorized_keys \
     && printenv | grep -v "no_proxy" >> /etc/environment \
