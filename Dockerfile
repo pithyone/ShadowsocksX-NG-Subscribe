@@ -37,5 +37,4 @@ CMD yes n | ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' ; cd /root/.ssh \
     && grep -f id_rsa.pub host/authorized_keys || cat id_rsa.pub >> host/authorized_keys \
     && printenv | grep -v "no_proxy" >> /etc/environment \
     && cd /app \
-    && ./update.sh \
-    && cron -f
+    && ./update.sh ; cron -f
