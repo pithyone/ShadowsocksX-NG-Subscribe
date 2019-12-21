@@ -32,8 +32,7 @@ RUN chmod 0644 /etc/cron.d/crontab
 
 RUN crontab /etc/cron.d/crontab
 
-CMD yes y | ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' \
-    && cd /root/.ssh \
+CMD yes n | ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' ; cd /root/.ssh \
     && touch host/authorized_keys \
     && grep -f id_rsa.pub host/authorized_keys || cat id_rsa.pub >> host/authorized_keys \
     && printenv | grep -v "no_proxy" >> /etc/environment \
