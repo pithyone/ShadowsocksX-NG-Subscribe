@@ -5,10 +5,6 @@ const uuidv4 = require('uuid/v4');
 const plist = require('plist');
 const fs = require('fs');
 
-if (!process.env.URL) {
-    throw new Error("Please set your subscribe url with -e URL=$URL");
-}
-
 (async () => {
     const response = await got(process.env.URL);
 
@@ -27,19 +23,19 @@ if (!process.env.URL) {
         };
     });
 
-    if (nodes.length > 0) {
-        const json =
-            {
-                'ActiveServerProfileId': nodes[0].Id,
-                'LaunchAtLogin': true,
-                'LocalSocks5.ListenAddress.Old': '127.0.0.1',
-                'LocalSocks5.ListenPort.Old': 1086,
-                'ServerProfiles': nodes,
-                'ShadowsocksOn': true,
-                'ShadowsocksRunningMode': 'auto'
-            }
-        ;
-
-        fs.writeFileSync('com.qiuyuzhou.ShadowsocksX-NG.tmp.plist', plist.build(json));
+    if (nodes.length <= 0) {
+        throw new Error('subscribe url return none');
     }
+
+    const json = {
+        'ActiveServerProfileId': nodes[0].Id,
+        'LaunchAtLogin': true,
+        'LocalSocks5.ListenAddress.Old': '127.0.0.1',
+        'LocalSocks5.ListenPort.Old': 1086,
+        'ServerProfiles': nodes,
+        'ShadowsocksOn': true,
+        'ShadowsocksRunningMode': 'auto'
+    };
+
+    fs.writeFileSync('com.qiuyuzhou.ShadowsocksX-NG.tmp.plist', plist.build(json));
 })();
