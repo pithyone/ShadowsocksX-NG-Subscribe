@@ -45,6 +45,7 @@ $ docker run -d \
 -e URL="***" \
 -v $HOME/.ssh:/root/.ssh/host \
 --name shadowsocksx-ng-subscribe \
+--restart always \
 pithyone/shadowsocksx-ng-subscribe
 ```
 
@@ -54,22 +55,12 @@ pithyone/shadowsocksx-ng-subscribe
 $ docker exec shadowsocksx-ng-subscribe ./update.sh
 ```
 
-使用下面的命令关闭 ShadowsocksX-NG-Subscribe
-
-```bash
-$ docker stop shadowsocksx-ng-subscribe
-```
-
-## 更新
-
-删除旧容器
+## 删除
 
 ```bash
 $ docker stop shadowsocksx-ng-subscribe
 $ docker rm shadowsocksx-ng-subscribe
 ```
-
-然后重复安装步骤
 
 ## 常见问题
 
