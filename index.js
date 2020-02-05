@@ -8,19 +8,27 @@ const fs = require('fs');
 (async () => {
     const response = await got(process.env.URL);
 
-    const nodes = base64.decode(response.body).split('\n').map(item => {
-        const config = SHADOWSOCKS_URI.parse(item);
+    const nodes = [];
 
-        return {
-            Id: uuidv4().toUpperCase(),
-            Method: config.method.data,
-            Password: config.password.data,
-            Plugin: config.extra.plugin ? config.extra.plugin.split(';', 1).pop() : '',
-            PluginOptions: config.extra.plugin ? config.extra.plugin.split(';').slice(1).join(';') : '',
-            Remark: config.tag.data,
-            ServerHost: config.host.data,
-            ServerPort: config.port.data,
-        };
+    base64.decode(response.body).split('\n').forEach(item => {
+        try {
+            const config = SHADOWSOCKS_URI.parse(item);
+
+            const plugin = config.extra.plugin;
+
+            nodes.push({
+                Id: uuidv4().toUpperCase(),
+                Method: config.method.data,
+                Password: config.password.data,
+                Plugin: plugin ? plugin.split(';', 1).pop() : '',
+                PluginOptions: plugin ? plugin.split(';').slice(1).join(';') : '',
+                Remark: config.tag.data,
+                ServerHost: config.host.data,
+                ServerPort: config.port.data,
+            });
+        } catch (e) {
+            //
+        }
     });
 
     if (nodes.length <= 0) {
